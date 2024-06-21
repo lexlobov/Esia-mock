@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Авторизация</title>
+    </head>
+    <body>
+        <h1>Выберите вариант авторизации</h1>
+        <form action="/get-patient" method="post">
+            <label for="patient_id">Введите id существующего пациента:</label>
+            <input type="text" id="patient_id" name="patient_id" required pattern="[0-9]+" minlength="2" maxlength="15">
+            <button type="submit">Войти</button>
+        </form>
+        <p>Или</p>
+        <form action="/get-employee" method="post">
+            <label for="employee_id">Введите id существующего сотрудника:</label>
+            <input type="text" id="employee_id" name="employee_id" required pattern="[0-9]+" minlength="2" maxlength="15">
+            <button type="submit">Войти</button>
+        </form>
+        <p>Или</p>
+        <form action="/create-new-patient" method="get">
+            <button type="submit">Создать нового пациента</button>
+        </form>
+        <p>Или</p>
+        <form action="/create-new-employee" method="get">
+            <button type="submit">Создать нового сотрудника</button>
+        </form>
+        <script>
+        document.getElementById('patient_id').addEventListener('input', function() {
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity('id должен содержать только цифры');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        document.getElementById('employee_id').addEventListener('input', function() {
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity('id должен содержать только цифры');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Новый сотрудник</title>
+    </head>
+    <body>
+        <form action="/create-employee" method="post">
+            <label for="patient_first_name">Введите имя:</label>
+            <input type="text" id="patient_first_name" name="patient_first_name" required pattern="[a-zA-Zа-яА-Я]+" minlength="2" maxlength="20">
+            <br>
+            <label for="patient_last_name">Введите фамилию:</label>
+            <input type="text" id="patient_last_name" name="patient_last_name" required pattern="[a-zA-Zа-яА-Я]+" minlength="2" maxlength="20">
+            <br>
+            <label>Выберите роль:</label>
+            <br>
+            <input type="radio" id="doctor" name="role" value="doctor" checked>
+            <label for="doctor">Доктор</label>
+            <br>
+            <input type="radio" id="tenant" name="role" value="admin">
+            <label for="tenant">Админ клиники</label>
+            <br>
+            <input type="radio" id="admin" name="role" value="tenant">
+            <label for="admin">Админ тенанта</label>
+            <br>
+            <div id="hidden">
+                <label for="tenant_id">Tenant Id:</label>
+                <input type="text" id="tenant_id" name="tenant_id" pattern="[0-9]+" minlength="2" maxlength="20">
+                <br>
+                <label for="clinic_id">Clinic Id:</label>
+                <input type="text" id="clinic_id" name="clinic_id" pattern="[0-9]+" minlength="2" maxlength="20">
+            </div>
+
+            <br>
+            <button type="submit">Создать сотрудника</button>
+        </form>
+        <script>
+            document.getElementById('patient_first_name').addEventListener('input', function() {
+                if (this.validity.patternMismatch) {
+                    this.setCustomValidity('Имя должно содрежать только русские или латинские буквы');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            document.getElementById('patient_last_name').addEventListener('input', function() {
+                if (this.validity.patternMismatch) {
+                    this.setCustomValidity('Фамилия должна содрежать только русские или латинские буквы');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            document.getElementById('tenant_id').addEventListener('input', function() {
+                if (this.validity.patternMismatch) {
+                    this.setCustomValidity('Tenant Id должен содержать только цифры');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            document.getElementById('clinic_id').addEventListener('input', function() {
+                if (this.validity.patternMismatch) {
+                    this.setCustomValidity('Clinic Id должен содержать только цифры');
+                } else {
+                    this.setCustomValidity('');
+                }
+            });
+
+            function checkRadioButtons() {
+            const thirdRadioButton = document.querySelector('input[name="role"][value="tenant"]');
+            const hiddenElement = document.getElementById('hidden');
+            const tenantId = document.getElementById('tenant_id');
+            const clinicId = document.getElementById('clinic_id');
+
+            if (thirdRadioButton.checked) {
+                clinicId.value = '';
+                tenantId.value = '';
+                tenantId.removeAttribute('required');
+                clinicId.removeAttribute('required');
+                hiddenElement.style.display = 'none';
+            } else {
+                hiddenElement.style.display = 'block';
+                tenantId.setAttribute('required', 'required');
+                clinicId.setAttribute('required', 'required');
+            }
+        }
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', checkRadioButtons);
+        });
+        checkRadioButtons();
+        </script>
+    </body>
+</html>

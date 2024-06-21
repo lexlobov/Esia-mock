@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Новый пациент</title>
+    </head>
+    <body>
+        <form action="/create-patient" method="post" th:object="${patient}">
+            <label for="patient_first_name">Введите имя:</label>
+            <input type="text" id="patient_first_name" name="patient_first_name" required pattern="[a-zA-Zа-яА-Я]+" minlength="2" maxlength="20" th:field="*{firstName}">
+            <br>
+            <label for="patient_last_name">Введите фамилию:</label>
+            <input type="text" id="patient_last_name" name="patient_last_name" required pattern="[a-zA-Zа-яА-Я]+" minlength="2" maxlength="20" th:field="*{lastName}">
+            <br>
+            <label>Выберите пол:</label>
+            <br>
+            <label for="male">М</label>
+            <input type="radio" id="male" name="male" value="MALE" checked th:field="*{gender}">
+            <br>
+            <label for="female">Ж</label>
+            <input type="radio" id="female" name="female" value="FEMALE" th:field="*{gender}">
+            <br>
+            <label for="patient_date_of_birth">Выберите дату рождения:</label>
+            <input type="date" id="patient_date_of_birth" name="patient_date_of_birth" required th:field="*{dateOfBirth}">
+            <br>
+            <button type="submit">Создать пациента</button>
+        </form>
+        <script>
+        document.getElementById('patient_first_name').addEventListener('input', function() {
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity('Имя должно содрежать только русские или латинские буквы');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        document.getElementById('patient_last_name').addEventListener('input', function() {
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity('Фамилия должна содрежать только русские или латинские буквы');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        </script>
+    </body>
+</html>
